@@ -45,13 +45,39 @@ const signOut = function () {
 }
 
 const createPattern = function (data) {
-  console.log('api.createPattern function')
+  console.log('api.createPattern function, ', data)
   return $.ajax({
     method: 'POST',
     url: config.apiUrl + '/patterns',
-    data: data,
+    data: {
+      'pattern': data.pattern,
+      'title': data.pattern.title,
+      'square0': false,
+      'square1': false,
+      'square2': false,
+      'square3': false
+    },
     headers: {
       Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
+
+const updatePattern = function (patternId) {
+  console.log('api.updatePattern function, ', patternId)
+  return $.ajax({
+    method: 'PATCH',
+    url: config.apiUrl + '/patterns/' + patternId,
+    data: {
+      'pattern': {
+        'square0': false,
+        'square1': false,
+        'square2': false,
+        'square3': false
+      },
+      headers: {
+        Authorization: 'Token token=' + store.user.token
+      }
     }
   })
 }
@@ -67,11 +93,50 @@ const showPatterns = function () {
   })
 }
 
+const findPattern = function (patternId) {
+  console.log('api.findPattern function')
+  return $.ajax({
+    method: 'GET',
+    url: config.apiUrl + '/patterns',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
+
+const editPattern = function (boxId) {
+  console.log('api.editPattern function')
+  console.log(boxId)
+  return $.ajax({
+    method: 'PATCH',
+    url: config.apiUrl + '/patterns/' + boxId,
+    data: data,
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
+
+const deletePattern = function (data) {
+  console.log('api.deletePattern function')
+  return $.ajax({
+    method: 'DELETE',
+    url: config.apiUrl + '/patterns/' + data,
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
+
 module.exports = {
   signUp,
   signIn,
   changePassword,
   signOut,
   createPattern,
-  showPatterns
+  updatePattern,
+  showPatterns,
+  findPattern,
+  editPattern,
+  deletePattern
 }

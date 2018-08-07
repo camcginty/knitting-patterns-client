@@ -1,6 +1,5 @@
 'use strict'
 
-// const store = require('./store')
 const getFormFields = require('../../lib/get-form-fields')
 const authApi = require('./api')
 const authUi = require('./ui')
@@ -44,28 +43,31 @@ const onSignOut = function (event) {
     .catch(authUi.error)
 }
 
-// const onGetGames = function () {
-//   return authApi.getGames()
-//     .then(authUi.getGamesSuccess)
-//     .catch(authUi.getGamesError)
-// }
-
 // const grid = []
-let title
 
 const onShowPatterns = function () {
-  event.preventDefault()
   console.log('events.showPatterns function')
   authApi.showPatterns()
+    .then(authUi.showPatternsSuccess)
+    .catch(authUi.error)
 }
 
-const onCreatePattern = function (x, y) {
+const onShowOne = function () {
+  console.log('events.showOne function')
+  console.log(this)
+  debugger
+  const patternId = this.id
+  authApi.findPattern(patternId)
+    .then(authUi.showOneSuccess(patternId))
+    .catch(authUi.error)
+}
+
+const onCreatePattern = function () {
   event.preventDefault()
   console.log('events.createPattern function')
   const data = getFormFields(event.target)
   // x = this.x.value
   // y = this.y.value
-  title = this.title.value
   // for (let i = 0; i < x; i++) {
   //   grid[i] = []
   //   for (let j = 0; j < y; j++) {
@@ -73,18 +75,38 @@ const onCreatePattern = function (x, y) {
   //   }
   // }
   // console.log(grid)
+  console.log(data)
   authApi.createPattern(data)
-    .then(authUi.createPatternSuccess(title))
+    // .then(setStartColors(data))
+    .then(authUi.createPatternSuccess(data))
+    .catch(authUi.error)
+}
+
+const onDeletePattern = function () {
+  event.preventDefault()
+  console.log('events.deletePattern function')
+  const data = this.id
+  authApi.deletePattern(data)
+    .then(authUi.deletePatternSuccess(data))
+    .then(onShowPatterns)
     .catch(authUi.error)
 }
 
 let color
-let boxId
+
+const setStartColors = function (data) {
+  console.log('events.startColors function')
+  console.log(data)
+  authUi.setColors(data)
+  authApi.updatePattern(data)
+}
 
 const onChangeColor = function () {
   console.log('events.changeColor function')
   console.log(this)
-  boxId = this.id
+  debugger
+  const patternId = this.parent.id
+  const boxId = this.id
   if ($(this).hasClass('white')) {
     $(this).removeClass('white')
     $(this).addClass('black')
@@ -96,6 +118,7 @@ const onChangeColor = function () {
   } else {
     authUi.error()
   }
+  authApi.updatePattern(patternId)
   authUi.changeColor(boxId, color)
 }
 
@@ -106,6 +129,7 @@ module.exports = {
   onSignOut,
   onCreatePattern,
   onChangeColor,
-  onShowPatterns
-  // onGetGames
+  onShowPatterns,
+  onShowOne,
+  onDeletePattern
 }
