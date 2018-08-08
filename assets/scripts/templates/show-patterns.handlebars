@@ -1,0 +1,11 @@
+<ul class='pattern-list'>
+  {{log 'handlebars patterns file'}}
+  {{#each pattern as |pattern|}}
+    <li id="{{pattern.id}}">
+      <button class='pattern-name'>{{pattern.title}}</button>
+      <button id='{{pattern.title}}' class='delete-button'>Delete</button>
+    </li>
+  {{/each}}
+</ul>
+      {{#if pattern.editable}}
+      {{/if}}

@@ -1,2 +1,13 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
+
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
+
+.box {
+  border: solid grey 4px;
+  height: 100px;
+  width: 100px;
+}
+
+.row {
+  padding-left: 20%;
+}

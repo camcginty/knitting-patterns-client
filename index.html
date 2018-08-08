@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <title>Example</title>
+      <title>Knitting Patterns</title>
       <meta name="viewport" content="width=device-width, initial-scale=1">
 
       <!-- Do not add `link` tags-->
@@ -12,6 +12,52 @@
       <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
     </head>
     <body>
-      <h1>Browser Template</h1>
+      <h1>Knitting Patterns</h1>
+      <nav>
+        <!-- these might need to add name attribute to interact with backend -->
+        <ul>
+          <li class='pre-sign-in'>
+            <form id='sign-up'>
+              <input name="credentials[email]" type='email' placeholder='email'>
+              <input name="credentials[password]" type='password' placeholder='password'>
+              <input name="credentials[password_confirmation]" type='password' placeholder='password again'>
+              <button type='submit'>Sign Up</button>
+            </form>
+          </li>
+          <li class='pre-sign-in'>
+            <form id='sign-in'>
+              <input name="credentials[email]" type='email' placeholder='email'>
+              <input name="credentials[password]" type='password' placeholder='password'>
+              <button type='submit'>Sign In</button>
+            </form>
+          </li>
+          <li class='signed-in'>
+            <form id='password'>
+              <input name="passwords[old]" type='password' placeholder='old password'>
+              <input name="passwords[new]" type='password' placeholder='new password'>
+              <button type='submit'>Change Password</button>
+            </form>
+          </li>
+          <li class='signed-in'>
+            <button id='sign-out'>Sign Out</button>
+          </li>
+        </ul>
+      </nav>
+
+      <div class='info'></div>
+
+      <form id='new-pattern' class='signed-in'>
+        <input type='text' name='pattern[title]' placeholder='pattern title'>
+        <!-- <input type='number' name='x' placeholder='length'>
+        <input type='number' name='y' placeholder='width'> -->
+        <button type='submit' class='signed-in'>New Pattern</button>
+      </form>
+      <button id='get-patterns' class='signed-in'>Show Patterns</button>
+
+      <div class='pattern'>
+      </div>
+
+      <div class='patterns'></div>
+
     </body>
 </html>
