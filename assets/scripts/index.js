@@ -15,7 +15,7 @@ $(() => {
   $('.pattern').hide()
   $('.patterns').hide()
   $('#new-pattern').on('submit', events.onCreatePattern)
-  $('#get-patterns').on('click', events.onShowPatterns)
+  $('#get-patterns').on('click', events.onShowAllPatterns)
   $('body').on('click', '.delete-button', events.onDeletePattern)
   $('#sign-up').on('submit', authEvents.onSignUp)
   $('#sign-in').on('submit', authEvents.onSignIn)
