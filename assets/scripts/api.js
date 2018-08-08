@@ -50,12 +50,13 @@ const createPattern = function (data) {
     method: 'POST',
     url: config.apiUrl + '/patterns',
     data: {
-      'pattern': data.pattern,
-      'title': data.pattern.title,
-      'square0': false,
-      'square1': false,
-      'square2': false,
-      'square3': false
+      'pattern': {
+        'title': data.pattern.title,
+        'square0': false,
+        'square1': false,
+        'square2': false,
+        'square3': false
+      }
     },
     headers: {
       Authorization: 'Token token=' + store.user.token
@@ -63,21 +64,23 @@ const createPattern = function (data) {
   })
 }
 
-const updatePattern = function (patternId, square0, square1, square2, square3) {
+const updatePattern = function (patternId, patternTitle, square0, square1, square2, square3) {
   console.log('api.updatePattern function, ', patternId, square0, square1, square2, square3)
+  console.log('token is', store.user.token)
   return $.ajax({
     method: 'PATCH',
     url: config.apiUrl + '/patterns/' + patternId,
     data: {
       'pattern': {
+        'title': patternTitle,
         'square0': square0,
         'square1': square1,
         'square2': square2,
         'square3': square3
-      },
-      headers: {
-        Authorization: 'Token token=' + store.user.token
       }
+    },
+    headers: {
+      Authorization: 'Token token=' + store.user.token
     }
   })
 }
@@ -103,19 +106,6 @@ const findPattern = function (patternId) {
     }
   })
 }
-
-// const editPattern = function (boxId) {
-//   console.log('api.editPattern function')
-//   console.log(boxId)
-//   return $.ajax({
-//     method: 'PATCH',
-//     url: config.apiUrl + '/patterns/' + boxId,
-//     data: data,
-//     headers: {
-//       Authorization: 'Token token=' + store.user.token
-//     }
-//   })
-// }
 
 const deletePattern = function (data) {
   console.log('api.deletePattern function')
