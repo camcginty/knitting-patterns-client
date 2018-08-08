@@ -1,5 +1,5 @@
 'use strict'
-const authEvents = require('./events.js')
+const authEvents = require('./authEvents.js')
 const events = require('./events.js')
 // delete one of these or break authEvents into different file
 
