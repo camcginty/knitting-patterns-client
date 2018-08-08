@@ -76,11 +76,7 @@ const onCreatePattern = function () {
   // console.log(grid)
   console.log(data)
   authApi.createPattern(data)
-    // .then(setStartColors(data))
-    .then(authUi.createPatternSuccess(data))
-    .then(authUi.setColors)
-    .then(authApi.updatePattern)
-    .then(authUi.showPattern)
+    .then(authUi.createPatternSuccess)
     .catch(authUi.error)
 }
 
@@ -100,6 +96,7 @@ const onChangeColor = function () {
   console.log('events.changeColor function')
   console.log(this)
   const patternId = this.parentElement.parentElement.id
+  const patternTitle = this.parentElement.parentElement.title
   console.log('patternId is ', patternId)
   const boxId = this.id
   if ($(this).hasClass('white')) {
@@ -113,11 +110,11 @@ const onChangeColor = function () {
   } else {
     $(this).addClass('black')
   }
-  setSquareValues(patternId)
+  setSquareValues(patternId, patternTitle)
   authUi.changeColor(boxId, color)
 }
 
-const setSquareValues = function (patternId) {
+const setSquareValues = function (patternId, patternTitle) {
   let square0 = false
   let square1 = false
   let square2 = false
@@ -135,7 +132,7 @@ const setSquareValues = function (patternId) {
     square3 = true
   }
   console.log(patternId, square0, square1, square2, square3)
-  authApi.updatePattern(patternId, square0, square1, square2, square3)
+  authApi.updatePattern(patternId, patternTitle, square0, square1, square2, square3)
 }
 
 module.exports = {

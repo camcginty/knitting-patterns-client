@@ -55,9 +55,11 @@ const error = function (signOutError) {
 const createPatternSuccess = function (data) {
   console.log('ui.creatPattern function', data)
   clearText()
-  clearForms()
   $('.patterns').hide()
   $('.pattern').text = data.pattern.title
+  clearForms()
+  setColors(data)
+  showPattern(data)
 }
 
 const showPattern = function (data) {
@@ -70,7 +72,7 @@ const showPattern = function (data) {
 }
 
 const setColors = function (data) {
-  console.log('ui.setColors function')
+  console.log('ui.setColors function,', data)
   if ($('.box').hasClass('black') !== true) {
     $('.box').addClass('white')
   }
@@ -151,7 +153,7 @@ const clearText = function () {
 const clearForms = function () {
   if (signedIn === true) {
     document.getElementById('password').reset()
-    // $('.new-pattern').reset()
+    document.getElementById('new-pattern').reset()
   } else {
     document.getElementById('sign-up').reset()
     document.getElementById('sign-in').reset()
