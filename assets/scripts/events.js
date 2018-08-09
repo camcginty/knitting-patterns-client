@@ -37,12 +37,19 @@ const onCreatePattern = function () {
   // console.log(grid)
   console.log(data)
   api.createPattern(data)
-    // .then(setStartColors(data))
-    .then(ui.createPatternSuccess(data))
-    .then(ui.setColors)
-    .then(api.updatePattern)
-    .then(ui.showPattern)
+    .then(onCreateSquares)
     .catch(ui.error)
+}
+
+const onCreateSquares = function (data) {
+  console.log('events.onCreateSqs function, ', data)
+  const patternId = data.pattern.id
+  for (let i = 0; i < 4; i++) {
+    api.createSquares(data)
+  }
+  api.findPattern(patternId)
+    .then(ui.showOneSuccess)
+    .then(ui.createPatternSuccess)
 }
 
 const onDeletePattern = function () {
@@ -56,48 +63,38 @@ const onDeletePattern = function () {
 }
 
 let color
+let sqId
+let squareId
 
 const onChangeColor = function () {
   console.log('events.changeColor function')
   console.log(this)
   const patternId = this.parentElement.parentElement.id
+  sqId = this.id
+  console.log(sqId)
   console.log('patternId is ', patternId)
-  const boxId = this.id
   if ($(this).hasClass('white')) {
     $(this).removeClass('white')
     $(this).addClass('black')
     color = 'black'
+    on = true
   } else if ($(this).hasClass('black')) {
     $(this).removeClass('black')
     $(this).addClass('white')
     color = 'white'
+    on = false
   } else {
     $(this).addClass('black')
+    color = 'black'
+    on = true
   }
-  setSquareValues(patternId)
-  ui.changeColor(boxId, color)
+  squareId = sqId.split('s', 1).toString()
+  api.findSquare(squareId)
+    .then(api.updateSquare(squareId, on))
+    .then(ui.changeColor(sqId, color))
 }
 
-const setSquareValues = function (patternId) {
-  let square0 = false
-  let square1 = false
-  let square2 = false
-  let square3 = false
-  if ($('#sq0').hasClass('black')) {
-    square0 = true
-  }
-  if ($('#sq1').hasClass('black')) {
-    square1 = true
-  }
-  if ($('#sq2').hasClass('black')) {
-    square2 = true
-  }
-  if ($('#sq3').hasClass('black')) {
-    square3 = true
-  }
-  console.log(patternId, square0, square1, square2, square3)
-  api.updatePattern(patternId, square0, square1, square2, square3)
-}
+let on
 
 module.exports = {
   onCreatePattern,

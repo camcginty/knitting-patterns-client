@@ -8,12 +8,9 @@ const createPattern = function (data) {
     method: 'POST',
     url: config.apiUrl + '/patterns',
     data: {
-      'pattern': data.pattern,
-      'title': data.pattern.title,
-      'square0': false,
-      'square1': false,
-      'square2': false,
-      'square3': false
+      'pattern': {
+        'title': data.pattern.title
+      }
     },
     headers: {
       Authorization: 'Token token=' + store.user.token
@@ -21,21 +18,53 @@ const createPattern = function (data) {
   })
 }
 
-const updatePattern = function (patternId, square0, square1, square2, square3) {
-  console.log('api.updatePattern function, ', patternId, square0, square1, square2, square3)
+const createSquares = function (data) {
+  console.log('api.createSquares function, ', data)
+  return $.ajax({
+    method: 'POST',
+    url: config.apiUrl + '/squares',
+    data: {
+      'square': {
+        'on': false,
+        'pattern_id': data.pattern.id
+      }
+    },
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
+
+const updatePattern = function (patternId) {
+  console.log('api.updatePattern function, ', patternId)
   return $.ajax({
     method: 'PATCH',
     url: config.apiUrl + '/patterns/' + patternId,
     data: {
       'pattern': {
-        'square0': square0,
-        'square1': square1,
-        'square2': square2,
-        'square3': square3
-      },
-      headers: {
-        Authorization: 'Token token=' + store.user.token
+        'squares': [
+
+        ]
       }
+    },
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
+
+const updateSquare = function (squareId, on) {
+  console.log('api.updatePattern function, ', squareId)
+  return $.ajax({
+    method: 'PATCH',
+    url: config.apiUrl + '/squares/' + squareId,
+    data: {
+      'square': {
+        'on': on
+      }
+    },
+    headers: {
+      Authorization: 'Token token=' + store.user.token
     }
   })
 }
@@ -62,18 +91,16 @@ const findPattern = function (patternId) {
   })
 }
 
-// const editPattern = function (boxId) {
-//   console.log('api.editPattern function')
-//   console.log(boxId)
-//   return $.ajax({
-//     method: 'PATCH',
-//     url: config.apiUrl + '/patterns/' + boxId,
-//     data: data,
-//     headers: {
-//       Authorization: 'Token token=' + store.user.token
-//     }
-//   })
-// }
+const findSquare = function (squareId) {
+  console.log('api.findPattern function')
+  return $.ajax({
+    method: 'GET',
+    url: config.apiUrl + '/squares/' + squareId,
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
 
 const deletePattern = function (data) {
   console.log('api.deletePattern function')
@@ -91,5 +118,8 @@ module.exports = {
   updatePattern,
   showPatterns,
   findPattern,
-  deletePattern
+  deletePattern,
+  createSquares,
+  updateSquare,
+  findSquare
 }

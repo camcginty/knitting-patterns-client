@@ -1,8 +1,8 @@
 'use strict'
 
 const getFormFields = require('../../lib/get-form-fields')
-const authApi = require('./api')
-const authUi = require('./ui')
+const authApi = require('./authApi')
+const authUi = require('./authUi')
 
 const onSignUp = function (event) {
   console.log('events.signUp function')
