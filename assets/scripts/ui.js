@@ -1,49 +1,8 @@
 'use strict'
 
-const store = require('./store')
 const showPatternsTemplate = require('./templates/show-patterns.handlebars')
 const patternDisplay = require('./templates/pattern-display.handlebars')
-
-let signedIn = false
-
-const signUpSuccess = function (signUpSuccess) {
-  console.log('ui.signUpSuccess function')
-  clearText()
-  clearForms()
-  // $('#info').append('You now have an account. Sign in to play.')
-}
-
-const signInSuccess = function (signInSuccess) {
-  console.log('ui.signInSuccess function')
-  store.user = signInSuccess.user
-  signedIn = true
-  console.log('signedIn = ', signedIn)
-  clearText()
-  clearForms()
-  // document.getElementById('info').textContent = 'Welcome, ' + store.user.email + '!'
-  $('.pre-sign-in').hide()
-  $('.signed-in').show()
-}
-
-const changePasswordSuccess = function (changePasswordSuccess) {
-  console.log('ui.changePasswordSuccess function')
-  clearText()
-  clearForms()
-  // $('#info').append('Password changed.')
-}
-
-const signOutSuccess = function (signOutSuccess) {
-  console.log('ui.signOutSuccess function')
-  signedIn = false
-  console.log('signedIn = ', signedIn)
-  clearText()
-  clearForms()
-  // $('#info').append('Bye. Come again!')
-  $('.patterns').hide()
-  $('.pattern').hide()
-  $('.signed-in').hide()
-  $('.pre-sign-in').show()
-}
+const authUi = require('./ui')
 
 const error = function (signOutError) {
   console.log('errored!')
@@ -53,12 +12,13 @@ const error = function (signOutError) {
 }
 
 const createPatternSuccess = function (data) {
-  console.log('ui.creatPattern function', data)
+  console.log('ui.createPattern function', data)
   clearText()
   $('.patterns').hide()
   $('.pattern').text = data.pattern.title
   clearForms()
-  setColors(data)
+  // setColors(data)
+  console.log(data)
   showPattern(data)
 }
 
@@ -72,42 +32,32 @@ const showPattern = function (data) {
 }
 
 const setColors = function (data) {
-  console.log('ui.setColors function,', data)
+  console.log('ui.setColors function, ', data)
   if ($('.box').hasClass('black') !== true) {
     $('.box').addClass('white')
   }
-  $('.black').css('background-color', 'black')
-  $('.white').css('background-color', 'white')
+  changeColor()
 }
 
 const renewColors = function (data) {
-  console.log('ui.renewColors function')
-  if (data.pattern.square0 === true) {
-    $('#sq0').addClass('black')
-  } else {
-    $('#sq0').addClass('white')
+  console.log('ui.renewColors function, ', data)
+  let sqId
+  for (let i = 0; i < data.pattern.squares.length; i++) {
+    console.log(data.pattern.squares[i].id, data.pattern.squares[i].on)
+    sqId = data.pattern.squares[i].id + 'sq'
+    console.log(sqId)
+    if (data.pattern.squares[i].on === true) {
+      $('#' + sqId).addClass('black')
+    } else {
+      $('#' + sqId).addClass('white')
+    }
   }
-  if (data.pattern.square1 === true) {
-    $('#sq1').addClass('black')
-  } else {
-    $('#sq1').addClass('white')
-  }
-  if (data.pattern.square2 === true) {
-    $('#sq2').addClass('black')
-  } else {
-    $('#sq2').addClass('white')
-  }
-  if (data.pattern.square3 === true) {
-    $('#sq3').addClass('black')
-  } else {
-    $('#sq3').addClass('white')
-  }
-  $('.black').css('background-color', 'black')
-  $('.white').css('background-color', 'white')
+
+  changeColor()
 }
 
-const changeColor = function (boxId, color) {
-  console.log(boxId, color)
+const changeColor = function () {
+  console.log()
   $('.black').css('background-color', 'black')
   $('.white').css('background-color', 'white')
 }
@@ -130,7 +80,7 @@ const showOneSuccess = function (thisPattern) {
 }
 
 const listPatterns = function (data) {
-  console.log('listPatterns function')
+  console.log('listPatterns function, ', data)
   $('.pattern-list').remove()
   const patternListHbs = showPatternsTemplate({ pattern: data.patterns })
   console.log(data.patterns)
@@ -143,15 +93,12 @@ const deletePatternSuccess = function (data) {
   clearForms()
 }
 
-// const updatePatternSuccess = function () {
-// }
-
 const clearText = function () {
   $('.info').textContent = ''
 }
 
 const clearForms = function () {
-  if (signedIn === true) {
+  if (authUi.signedIn === true) {
     document.getElementById('password').reset()
     document.getElementById('new-pattern').reset()
   } else {
@@ -161,10 +108,6 @@ const clearForms = function () {
 }
 
 module.exports = {
-  signUpSuccess,
-  signInSuccess,
-  changePasswordSuccess,
-  signOutSuccess,
   createPatternSuccess,
   showPattern,
   showPatternsSuccess,

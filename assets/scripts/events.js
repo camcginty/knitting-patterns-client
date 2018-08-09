@@ -1,64 +1,25 @@
 'use strict'
 
 const getFormFields = require('../../lib/get-form-fields')
-const authApi = require('./api')
-const authUi = require('./ui')
-
-const onSignUp = function (event) {
-  console.log('events.signUp function')
-  event.preventDefault()
-  const data = getFormFields(event.target)
-  console.log(data)
-  authApi.signUp(data)
-    .then(authUi.signUpSuccess)
-    .then(onSignIn)
-    .catch(authUi.error)
-}
-
-const onSignIn = function (event) {
-  console.log('events.signIn function')
-  event.preventDefault()
-  const data = getFormFields(event.target)
-  console.log(data)
-  authApi.signIn(data)
-    .then(authUi.signInSuccess)
-    .catch(authUi.error)
-}
-
-const onChangePassword = function (event) {
-  console.log('events.changePassword function')
-  event.preventDefault()
-  const data = getFormFields(event.target)
-  console.log(data)
-  authApi.changePassword(data)
-    .then(authUi.changePasswordSuccess)
-    .catch(authUi.error)
-}
-
-const onSignOut = function (event) {
-  console.log('events.signOut function')
-  event.preventDefault()
-  authApi.signOut()
-    .then(authUi.signOutSuccess)
-    .catch(authUi.error)
-}
+const api = require('./api')
+const ui = require('./ui')
 
 // const grid = []
 
 const onShowAllPatterns = function () {
   console.log('events.showPatterns function')
-  authApi.showPatterns()
-    .then(authUi.showPatternsSuccess)
-    .catch(authUi.error)
+  api.showPatterns()
+    .then(ui.showPatternsSuccess)
+    .catch(ui.error)
 }
 
 const onShowOne = function () {
   console.log('events.showOne function')
   console.log(this)
   const patternId = this.parentElement.id
-  authApi.findPattern(patternId)
-    .then(authUi.showOneSuccess)
-    .catch(authUi.error)
+  api.findPattern(patternId)
+    .then(ui.showOneSuccess)
+    .catch(ui.error)
 }
 
 const onCreatePattern = function () {
@@ -75,71 +36,67 @@ const onCreatePattern = function () {
   // }
   // console.log(grid)
   console.log(data)
-  authApi.createPattern(data)
-    .then(authUi.createPatternSuccess)
-    .catch(authUi.error)
+  api.createPattern(data)
+    .then(onCreateSquares)
+    .catch(ui.error)
+}
+
+const onCreateSquares = function (data) {
+  console.log('events.onCreateSqs function, ', data)
+  const patternId = data.pattern.id
+  for (let i = 0; i < 4; i++) {
+    api.createSquares(data)
+  }
+  api.findPattern(patternId)
+    .then(ui.showOneSuccess)
+    .then(ui.createPatternSuccess)
 }
 
 const onDeletePattern = function () {
   event.preventDefault()
   console.log('events.deletePattern function')
   const data = this.parentElement.id
-  authApi.deletePattern(data)
-    .then(authUi.deletePatternSuccess(data))
+  api.deletePattern(data)
+    .then(ui.deletePatternSuccess(data))
     .then(onShowAllPatterns)
-    .catch(authUi.error)
+    .catch(ui.error)
 }
 
 let color
+let sqId
+let squareId
 
 const onChangeColor = function () {
   console.log('events.changeColor function')
   console.log(this)
   const patternId = this.parentElement.parentElement.id
-  const patternTitle = this.parentElement.parentElement.title
+  sqId = this.id
+  console.log(sqId)
   console.log('patternId is ', patternId)
-  const boxId = this.id
   if ($(this).hasClass('white')) {
     $(this).removeClass('white')
     $(this).addClass('black')
     color = 'black'
+    on = true
   } else if ($(this).hasClass('black')) {
     $(this).removeClass('black')
     $(this).addClass('white')
     color = 'white'
+    on = false
   } else {
     $(this).addClass('black')
+    color = 'black'
+    on = true
   }
-  setSquareValues(patternId, patternTitle)
-  authUi.changeColor(boxId, color)
+  squareId = sqId.split('s', 1).toString()
+  api.findSquare(squareId)
+    .then(api.updateSquare(squareId, on))
+    .then(ui.changeColor(sqId, color))
 }
 
-const setSquareValues = function (patternId, patternTitle) {
-  let square0 = false
-  let square1 = false
-  let square2 = false
-  let square3 = false
-  if ($('#sq0').hasClass('black')) {
-    square0 = true
-  }
-  if ($('#sq1').hasClass('black')) {
-    square1 = true
-  }
-  if ($('#sq2').hasClass('black')) {
-    square2 = true
-  }
-  if ($('#sq3').hasClass('black')) {
-    square3 = true
-  }
-  console.log(patternId, square0, square1, square2, square3)
-  authApi.updatePattern(patternId, patternTitle, square0, square1, square2, square3)
-}
+let on
 
 module.exports = {
-  onSignUp,
-  onSignIn,
-  onChangePassword,
-  onSignOut,
   onCreatePattern,
   onChangeColor,
   onShowAllPatterns,
