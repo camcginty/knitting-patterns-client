@@ -14,7 +14,6 @@
     <body>
       <h1>Knitting Patterns</h1>
       <nav>
-        <!-- these might need to add name attribute to interact with backend -->
         <ul>
           <li class='pre-sign-in'>
             <form id='sign-up'>
@@ -47,7 +46,7 @@
       <div class='info'></div>
 
       <form id='new-pattern' class='signed-in'>
-        <input type='text' name='pattern[title]' placeholder='pattern title'>
+        <input type='text' name='pattern[title]' placeholder='pattern title' required>
         <!-- <input type='number' name='x' placeholder='length'>
         <input type='number' name='y' placeholder='width'> -->
         <button type='submit' class='signed-in'>New Pattern</button>

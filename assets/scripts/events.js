@@ -7,15 +7,12 @@ const ui = require('./ui')
 // const grid = []
 
 const onShowAllPatterns = function () {
-  console.log('events.showPatterns function')
   api.showPatterns()
     .then(ui.showPatternsSuccess)
     .catch(ui.error)
 }
 
 const onShowOne = function () {
-  console.log('events.showOne function')
-  console.log(this)
   const patternId = this.parentElement.id
   api.findPattern(patternId)
     .then(ui.showOneSuccess)
@@ -24,27 +21,16 @@ const onShowOne = function () {
 
 const onCreatePattern = function () {
   event.preventDefault()
-  console.log('events.createPattern function')
+  $('.info').append('This will take a moment...')
   const data = getFormFields(event.target)
-  // x = this.x.value
-  // y = this.y.value
-  // for (let i = 0; i < x; i++) {
-  //   grid[i] = []
-  //   for (let j = 0; j < y; j++) {
-  //     grid[i][j] = 0
-  //   }
-  // }
-  // console.log(grid)
-  console.log(data)
   api.createPattern(data)
     .then(onCreateSquares)
     .catch(ui.error)
 }
 
 const onCreateSquares = function (data) {
-  console.log('events.onCreateSqs function, ', data)
   const patternId = data.pattern.id
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 324; i++) {
     api.createSquares(data)
   }
   api.findPattern(patternId)
@@ -54,7 +40,6 @@ const onCreateSquares = function (data) {
 
 const onDeletePattern = function () {
   event.preventDefault()
-  console.log('events.deletePattern function')
   const data = this.parentElement.id
   api.deletePattern(data)
     .then(ui.deletePatternSuccess(data))
@@ -65,14 +50,10 @@ const onDeletePattern = function () {
 let color
 let sqId
 let squareId
+let on
 
 const onChangeColor = function () {
-  console.log('events.changeColor function')
-  console.log(this)
-  const patternId = this.parentElement.parentElement.id
   sqId = this.id
-  console.log(sqId)
-  console.log('patternId is ', patternId)
   if ($(this).hasClass('white')) {
     $(this).removeClass('white')
     $(this).addClass('black')
@@ -94,7 +75,6 @@ const onChangeColor = function () {
     .then(ui.changeColor(sqId, color))
 }
 
-let on
 
 module.exports = {
   onCreatePattern,

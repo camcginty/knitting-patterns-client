@@ -4,10 +4,41 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 
 .box {
   border: solid grey 4px;
-  height: 100px;
-  width: 100px;
+  height: 60px;
+  width: 60px;
 }
 
 .row {
-  padding-left: 20%;
+  padding-left: 380px;
+  padding-right: 380px;
+}
+
+.info {
+  font-size: 25px;
+  margin: 5px;
+}
+
+body {
+  background-image: url('../../public/yarn.jpg');
+  color: purple;
+  font-weight: bold;
+}
+
+button,
+h1 {
+  background-color: purple;
+  color: white;
+}
+
+button {
+  padding: 5px;
+}
+
+h1 {
+  margin-top: 0;
+  padding: 20px;
+}
+
+h3 {
+  font-weight: bold;
 }
