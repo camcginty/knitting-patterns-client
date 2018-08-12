@@ -3,7 +3,6 @@ const config = require('./config.js')
 const store = require('./store')
 
 const createPattern = function (data) {
-  console.log('api.createPattern function, ', data)
   return $.ajax({
     method: 'POST',
     url: config.apiUrl + '/patterns',
@@ -19,7 +18,6 @@ const createPattern = function (data) {
 }
 
 const createSquares = function (data) {
-  console.log('api.createSquares function, ', data)
   return $.ajax({
     method: 'POST',
     url: config.apiUrl + '/squares',
@@ -36,7 +34,6 @@ const createSquares = function (data) {
 }
 
 const updatePattern = function (patternId) {
-  console.log('api.updatePattern function, ', patternId)
   return $.ajax({
     method: 'PATCH',
     url: config.apiUrl + '/patterns/' + patternId,
@@ -54,7 +51,6 @@ const updatePattern = function (patternId) {
 }
 
 const updateSquare = function (squareId, on) {
-  console.log('api.updatePattern function, ', squareId)
   return $.ajax({
     method: 'PATCH',
     url: config.apiUrl + '/squares/' + squareId,
@@ -70,7 +66,6 @@ const updateSquare = function (squareId, on) {
 }
 
 const showPatterns = function () {
-  console.log('api.showPatterns function')
   return $.ajax({
     method: 'GET',
     url: config.apiUrl + '/patterns',
@@ -81,7 +76,6 @@ const showPatterns = function () {
 }
 
 const findPattern = function (patternId) {
-  console.log('api.findPattern function')
   return $.ajax({
     method: 'GET',
     url: config.apiUrl + '/patterns/' + patternId,
@@ -92,7 +86,6 @@ const findPattern = function (patternId) {
 }
 
 const findSquare = function (squareId) {
-  console.log('api.findPattern function')
   return $.ajax({
     method: 'GET',
     url: config.apiUrl + '/squares/' + squareId,
@@ -103,7 +96,6 @@ const findSquare = function (squareId) {
 }
 
 const deletePattern = function (data) {
-  console.log('api.deletePattern function')
   return $.ajax({
     method: 'DELETE',
     url: config.apiUrl + '/patterns/' + data,

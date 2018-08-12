@@ -1,6 +1,7 @@
-  {{log 'handlebars pattern display file'}}
-      <div class="row" id='row3'>
-        {{#each square}}
-        <div class="box" id="{{square.id}}sq"></div>
+    {{log pattern}}
+    <div id='{{pattern.id}}'>
+      <div class="row" id='row2'>
+        {{#each pattern.squares}}
+        <div class="col-xs-4 col-md-3 box" id="{{id}}sq"></div>
         {{/each}}
   </div>
