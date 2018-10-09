@@ -1,22 +1,7 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
+// $grid-columns: 18 !default;
 
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
-
-.box {
-  border: solid grey 4px;
-  height: 60px;
-  width: 60px;
-}
-
-.row {
-  padding-left: 380px;
-  padding-right: 380px;
-}
-
-.info {
-  font-size: 25px;
-  margin: 5px;
-}
 
 body {
   background-image: url('../../public/yarn.jpg');
@@ -41,4 +26,15 @@ h1 {
 
 h3 {
   font-weight: bold;
+}
+
+.box {
+  border: solid grey 4px;
+  height: 60px;
+  width: 5.5%;
+}
+
+.info {
+  font-size: 25px;
+  margin: 5px;
 }

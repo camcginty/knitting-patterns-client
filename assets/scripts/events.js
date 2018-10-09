@@ -75,7 +75,6 @@ const onChangeColor = function () {
     .then(ui.changeColor(sqId, color))
 }
 
-
 module.exports = {
   onCreatePattern,
   onChangeColor,
